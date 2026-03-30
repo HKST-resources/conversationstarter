@@ -19,7 +19,6 @@
         }
 
         .page-gradient-mood { background: linear-gradient(180deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%); }
-        .page-gradient-sharing { background: linear-gradient(180deg, #4facfe 0%, #00f2fe 100%); }
         .page-gradient-feedback { background: linear-gradient(180deg, #2af598 0%, #009efd 100%); }
 
         .glass-card {
@@ -97,24 +96,10 @@
         .feedback-box-purple { border-top: 10px solid #9c27b0; }
         .feedback-box-blue { border-top: 10px solid #2196f3; }
         .feedback-box-green { border-top: 10px solid #4caf50; }
-
-        .spinner {
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            border-top: 3px solid #fff;
-            width: 20px;
-            height: 20px;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
     </style>
 </head>
 <body class="flex flex-col items-center p-6">
 
-    <!-- SETUP PAGE -->
     <div id="setup-page" class="w-full max-w-2xl flex flex-col items-center">
         <div class="mt-12 mb-4 animate-bounce">
             <span class="text-7xl">⭐️</span>
@@ -140,10 +125,9 @@
         </button>
     </div>
 
-    <!-- MOOD PAGE -->
     <div id="mood-page" class="hidden w-full max-w-4xl flex flex-col items-center pb-20">
         <h2 class="text-white text-4xl font-black mb-2 text-center drop-shadow-md mt-6">分享今天的心情</h2>
-        <p class="text-white text-xl mb-10 text-center opacity-90">選出你現在的感覺（可選多個）</p>
+        <p class="text-white text-xl mb-10 text-center opacity-90">選出你現在的感覺</p>
         
         <div id="mood-list" class="w-full grid grid-cols-1 md:grid-cols-2 gap-6"></div>
 
@@ -152,7 +136,6 @@
         </button>
     </div>
 
-    <!-- SHARING PAGE -->
     <div id="sharing-page" class="hidden w-full max-w-5xl flex flex-col items-center pb-20">
         <h2 class="text-white text-4xl font-black mb-8 text-center drop-shadow-md mt-6">話題大抽獎與反饋</h2>
         
@@ -163,12 +146,11 @@
         </div>
 
         <div class="flex flex-wrap gap-6 justify-center mb-12">
-            <button onclick="drawTopic()" class="bg-orange-500 text-white px-10 py-5 rounded-2xl text-xl font-black shadow-lg flex items-center gap-3 active:scale-95 transition-all">
-                🎲 隨機抽題
+            <button onclick="drawDailyTopic()" class="bg-orange-500 text-white px-10 py-5 rounded-2xl text-xl font-black shadow-lg flex items-center gap-3 active:scale-95 transition-all">
+                💬 日常聊天
             </button>
-            <button onclick="generateAiTopic()" id="ai-topic-btn" class="bg-indigo-600 text-white px-10 py-5 rounded-2xl text-xl font-black shadow-lg flex items-center gap-3 active:scale-95 transition-all">
-                <span id="ai-topic-spinner" class="spinner hidden"></span>
-                <span>✨ 智能生成話題</span>
+            <button onclick="drawCreativeTopic()" class="bg-indigo-600 text-white px-10 py-5 rounded-2xl text-xl font-black shadow-lg flex items-center gap-3 active:scale-95 transition-all">
+                💡 創意小組討論
             </button>
         </div>
 
@@ -177,7 +159,6 @@
         <button onclick="location.reload()" class="mt-16 text-white/70 font-bold hover:text-white transition-colors">重新開始活動</button>
     </div>
 
-    <!-- FLOATING MASCOT PICKER -->
     <div id="mascot-overlay" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="mascot-modal max-w-md w-full">
             <h3 class="col-span-5 text-center font-black text-2xl text-gray-800 mb-4">選擇你的角色 🎭</h3>
@@ -200,12 +181,11 @@
     </div>
 
     <script>
-        const apiKey = "";
         let childrenCount = 0;
         let childrenData = [];
         let pickingIndex = -1;
 
-        const fallbackTopics = [
+        const dailyTopics = [
             { icon: "📺", text: "你在Youtube會看甚麼節目？" },
             { icon: "✈️", text: "你上一次去了哪裡旅行？" },
             { icon: "🎨", text: "你最喜歡的一種顏色是甚麼？" },
@@ -221,6 +201,21 @@
             { icon: "🌳", text: "你去公園玩的時候最喜歡玩甚麼？" },
             { icon: "👨‍👩‍👧", text: "家裡誰最常陪你玩遊戲？" },
             { icon: "📚", text: "你最近看過甚麼圖書？" }
+        ];
+
+        const creativeTopics = [
+            { icon: "🎡", text: "如果你可以為香港設計一個全新的遊樂場，你最想在裏面加入甚麼特別的設施呢？" },
+            { icon: "🍞", text: "如果你是一位麵包師傅，你想發明一種怎樣的新麵包？" },
+            { icon: "🚌", text: "如果你乘搭了一輛會飛的巴士，你會飛到哪裏呢？" },
+            { icon: "👽", text: "如果外星人到你家作客，你會請他吃甚麼香港美食？" },
+            { icon: "🚀", text: "如果你要製作一輛很有創意的交通工具，這種交通工具會是怎樣呢？" },
+            { icon: "🦒", text: "如果長頸鹿要乘坐地鐵，我們可以怎樣幫助牠？" },
+            { icon: "🦸", text: "如果你可以有超能力，你想有甚麼超能力？" },
+            { icon: "♻️", text: "香港有很多廢棄的膠樽，為了環保，我們可以怎樣利用這些膠樽？" },
+            { icon: "🍽️", text: "如果你是餐廳的老闆，你會針對桌子太高、沒喜歡的食物、等候太悶等問題怎樣做？" },
+            { icon: "🎂", text: "你的好朋友明天生日了，你會怎樣預備他的生日會？" },
+            { icon: "🤖", text: "如果你能設計一個機械人小幫手幫爸爸媽媽做家務，他應該有甚麼功能？" },
+            { icon: "🚗", text: "小朋友乘坐長途車時都感到很無聊，你提議他們可以做甚麼？" }
         ];
 
         const moodOptions = [
@@ -244,58 +239,16 @@
             { emoji: "❤️", label: "心心" }
         ];
 
-        async function geminiFetch(payload) {
-            let retries = 5;
-            let delay = 1000;
-            while (retries > 0) {
-                try {
-                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-                    if (!response.ok) throw new Error('API Error');
-                    return await response.json();
-                } catch (e) {
-                    retries--;
-                    if (retries === 0) throw e;
-                    await new Promise(r => setTimeout(r, delay));
-                    delay *= 2;
-                }
-            }
+        function drawDailyTopic() {
+            const rand = dailyTopics[Math.floor(Math.random() * dailyTopics.length)];
+            document.getElementById('topic-icon').innerText = rand.icon;
+            document.getElementById('topic-text').innerText = rand.text;
         }
 
-        async function generateAiTopic() {
-            const btn = document.getElementById('ai-topic-btn');
-            const spinner = document.getElementById('ai-topic-spinner');
-            btn.disabled = true;
-            spinner.classList.remove('hidden');
-
-            try {
-                const systemPrompt = "You are a creative preschool teacher in Hong Kong. Generate one engaging discussion topic for 5-6 year old children. The topic must be in formal Traditional Chinese (e.g. use '做了甚麼' instead of '做左咩'). Focus on local culture, hobbies, family, or imagination. Return ONLY a JSON object with 'icon' (emoji) and 'text' (the topic string).";
-                const userQuery = "請生成一個新的對話話題。";
-                
-                const result = await geminiFetch({
-                    contents: [{ parts: [{ text: userQuery }] }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] },
-                    generationConfig: { 
-                        responseMimeType: "application/json", 
-                        responseSchema: { 
-                            type: "OBJECT", 
-                            properties: { icon: { type: "string" }, text: { type: "string" } } 
-                        } 
-                    }
-                });
-
-                const data = JSON.parse(result.candidates[0].content.parts[0].text);
-                document.getElementById('topic-icon').innerText = data.icon;
-                document.getElementById('topic-text').innerText = data.text;
-            } catch (error) {
-                drawTopic(); // Fallback to list
-            } finally {
-                btn.disabled = false;
-                spinner.classList.add('hidden');
-            }
+        function drawCreativeTopic() {
+            const rand = creativeTopics[Math.floor(Math.random() * creativeTopics.length)];
+            document.getElementById('topic-icon').innerText = rand.icon;
+            document.getElementById('topic-text').innerText = rand.text;
         }
 
         function setCount(num) {
@@ -399,12 +352,6 @@
             window.scrollTo(0,0);
         }
 
-        function drawTopic() {
-            const rand = fallbackTopics[Math.floor(Math.random() * fallbackTopics.length)];
-            document.getElementById('topic-icon').innerText = rand.icon;
-            document.getElementById('topic-text').innerText = rand.text;
-        }
-
         function renderFeedback() {
             const list = document.getElementById('feedback-list');
             list.innerHTML = '';
@@ -445,8 +392,6 @@
         function addFeedback(childIdx, feedbackIdx) {
             childrenData[childIdx].feedback[feedbackIdx]++;
             const count = childrenData[childIdx].feedback[feedbackIdx];
-            
-            // Visual feedback
             const countEl = document.getElementById(`count-${childIdx}-${feedbackIdx}`);
             const barEl = document.getElementById(`bar-${childIdx}-${feedbackIdx}`);
             
