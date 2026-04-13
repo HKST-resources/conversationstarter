@@ -28,6 +28,24 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
+        /* Wh-Question 樣式 */
+        .wh-box {
+            background: white;
+            border: 4px solid transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+        .wh-box.active {
+            border-color: #22c55e; /* Green-500 */
+            background: #f0fdf4;
+        }
+
         .btn-circle {
             width: 70px;
             height: 70px;
@@ -102,12 +120,9 @@
 <body class="flex flex-col items-center p-6">
 
     <div id="setup-page" class="w-full max-w-2xl mx-auto flex flex-col items-center">
-        <div class="mt-12 mb-4 animate-bounce">
-            <span class="text-7xl">⭐️</span>
-        </div>
+        <div class="mt-12 mb-4 animate-bounce"><span class="text-7xl">⭐️</span></div>
         <h1 class="text-white text-4xl font-black mb-2 tracking-wide text-center">小朋友分享圈</h1>
         <p class="text-white text-xl mb-10 opacity-90 text-center font-medium">歡迎來到今天的分享時間！</p>
-
         <div class="glass-card w-full p-8 mb-8 text-center">
             <p class="text-gray-600 font-bold mb-6">今天有幾位小朋友？</p>
             <div class="flex gap-4 flex-wrap justify-center">
@@ -118,66 +133,76 @@
                 <div onclick="setCount(6)" class="btn-circle count-btn shadow-md" id="btn-6">6</div>
             </div>
         </div>
-
         <div id="children-list" class="w-full space-y-4 mb-10"></div>
-
-        <button onclick="goToMoodPage()" id="start-btn" class="hidden bg-white text-purple-700 px-16 py-5 rounded-full text-2xl font-black shadow-xl active:scale-95 transition-all">
-            準備開始 ➡️
-        </button>
+        <button onclick="goToMoodPage()" id="start-btn" class="hidden bg-white text-purple-700 px-16 py-5 rounded-full text-2xl font-black shadow-xl active:scale-95 transition-all">準備開始 ➡️</button>
     </div>
 
     <div id="mood-page" class="hidden w-full max-w-4xl mx-auto flex flex-col items-center pb-20">
-        <h2 class="text-white text-4xl font-black mb-2 text-center drop-shadow-md mt-6">分享今天的心情</h2>
+        <h2 class="text-white text-4xl font-black mb-2 text-center mt-6">分享今天的心情</h2>
         <p class="text-white text-xl mb-10 text-center opacity-90">選出你現在的感覺</p>
-        
         <div id="mood-list" class="w-full grid grid-cols-1 md:grid-cols-2 gap-6 justify-items-center"></div>
-
-        <button onclick="goToSharingPage()" class="mt-12 bg-orange-500 text-white px-16 py-5 rounded-full text-2xl font-black shadow-xl active:scale-95 transition-all">
-            開始抽話題 🎲
-        </button>
+        <button onclick="goToSharingPage()" class="mt-12 bg-orange-500 text-white px-16 py-5 rounded-full text-2xl font-black shadow-xl active:scale-95 transition-all">開始抽話題 🎲</button>
     </div>
 
-    <div id="sharing-page" class="hidden w-full max-w-5xl mx-auto flex flex-col items-center pb-20">
-        <h2 class="text-white text-4xl font-black mb-8 text-center drop-shadow-md mt-6">話題大抽獎與反饋</h2>
+    <div id="sharing-page" class="hidden w-full max-w-6xl mx-auto flex flex-col items-center pb-20">
+        <h2 class="text-white text-4xl font-black mb-8 text-center mt-6">話題大抽獎與反饋</h2>
         
-        <div class="glass-card w-full p-10 text-center mb-8 relative overflow-hidden">
-            <div class="absolute top-0 left-0 w-2 h-full bg-green-400"></div>
-            <div id="topic-icon" class="text-7xl mb-4 transition-all duration-500">💬</div>
-            <h3 id="topic-text" class="text-3xl md:text-5xl font-black text-gray-800 leading-tight px-4">準備好分享了嗎？</h3>
+        <div class="flex flex-col lg:flex-row gap-6 w-full items-stretch mb-8">
+            <div class="glass-card flex-1 p-10 text-center relative overflow-hidden flex flex-col justify-center min-h-[300px]">
+                <div class="absolute top-0 left-0 w-2 h-full bg-green-400"></div>
+                <div id="topic-icon" class="text-7xl mb-4 transition-all duration-500">💬</div>
+                <h3 id="topic-text" class="text-3xl md:text-4xl font-black text-gray-800 leading-tight px-4">準備好分享了嗎？</h3>
+            </div>
+
+            <div class="grid grid-cols-3 grid-rows-2 gap-3 w-full lg:w-[400px]">
+                <div onclick="this.classList.toggle('active')" class="wh-box shadow-md">
+                    <span class="text-3xl">❓</span><span class="font-black text-gray-700">甚麼</span>
+                </div>
+                <div onclick="this.classList.toggle('active')" class="wh-box shadow-md">
+                    <span class="text-3xl">📍</span><span class="font-black text-gray-700">哪裏</span>
+                </div>
+                <div onclick="this.classList.toggle('active')" class="wh-box shadow-md">
+                    <span class="text-3xl">👤</span><span class="font-black text-gray-700">誰</span>
+                </div>
+                <div onclick="this.classList.toggle('active')" class="wh-box shadow-md">
+                    <span class="text-3xl">⏰</span><span class="font-black text-gray-700">何時</span>
+                </div>
+                <div onclick="this.classList.toggle('active')" class="wh-box shadow-md">
+                    <span class="text-3xl">⚙️</span><span class="font-black text-gray-700">怎樣</span>
+                </div>
+                <div onclick="this.classList.toggle('active')" class="wh-box shadow-md">
+                    <span class="text-3xl">💡</span><span class="font-black text-gray-700">為甚麼</span>
+                </div>
+            </div>
         </div>
 
-        <div class="flex flex-wrap gap-6 justify-center mb-12">
-            <button onclick="drawDailyTopic()" class="bg-orange-500 text-white px-10 py-5 rounded-2xl text-xl font-black shadow-lg flex items-center gap-3 active:scale-95 transition-all">
-                💬 日常聊天
-            </button>
-            <button onclick="drawCreativeTopic()" class="bg-indigo-600 text-white px-10 py-5 rounded-2xl text-xl font-black shadow-lg flex items-center gap-3 active:scale-95 transition-all">
-                💡 創意小組討論
-            </button>
+        <div class="flex flex-wrap gap-4 justify-center mb-12">
+            <button onclick="drawDailyTopic()" class="bg-orange-500 text-white px-8 py-4 rounded-2xl text-xl font-black shadow-lg active:scale-95 transition-all">💬 日常聊天</button>
+            <button onclick="drawCreativeTopic()" class="bg-indigo-600 text-white px-8 py-4 rounded-2xl text-xl font-black shadow-lg active:scale-95 transition-all">💡 創意小組討論</button>
         </div>
 
         <div id="feedback-list" class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center"></div>
-        
         <button onclick="location.reload()" class="mt-16 text-white/70 font-bold hover:text-white transition-colors">重新開始活動</button>
     </div>
 
     <div id="mascot-overlay" class="fixed inset-0 bg-black/40 hidden z-50 flex items-center justify-center p-4 backdrop-blur-sm">
         <div class="mascot-modal max-w-md w-full mx-auto">
             <h3 class="col-span-5 text-center font-black text-2xl text-gray-800 mb-4">選擇你的角色 🎭</h3>
-            <div onclick="pickMascot('🐼')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🐼</div>
-            <div onclick="pickMascot('🦊')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🦊</div>
-            <div onclick="pickMascot('🐰')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🐰</div>
-            <div onclick="pickMascot('🐸')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🐸</div>
-            <div onclick="pickMascot('🦄')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🦄</div>
-            <div onclick="pickMascot('🐙')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🐙</div>
-            <div onclick="pickMascot('🐻')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🐻</div>
-            <div onclick="pickMascot('🦁')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🦁</div>
-            <div onclick="pickMascot('🐱')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🐱</div>
-            <div onclick="pickMascot('🐶')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🐶</div>
-            <div onclick="pickMascot('🐯')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🐯</div>
-            <div onclick="pickMascot('🐧')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🐧</div>
-            <div onclick="pickMascot('🐨')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🐨</div>
-            <div onclick="pickMascot('🦖')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🦖</div>
-            <div onclick="pickMascot('🐝')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center transition-colors">🐝</div>
+            <div onclick="pickMascot('🐼')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🐼</div>
+            <div onclick="pickMascot('🦊')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🦊</div>
+            <div onclick="pickMascot('🐰')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🐰</div>
+            <div onclick="pickMascot('🐸')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🐸</div>
+            <div onclick="pickMascot('🦄')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🦄</div>
+            <div onclick="pickMascot('🐙')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🐙</div>
+            <div onclick="pickMascot('🐻')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🐻</div>
+            <div onclick="pickMascot('🦁')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🦁</div>
+            <div onclick="pickMascot('🐱')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🐱</div>
+            <div onclick="pickMascot('🐶')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🐶</div>
+            <div onclick="pickMascot('🐯')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🐯</div>
+            <div onclick="pickMascot('🐧')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🐧</div>
+            <div onclick="pickMascot('🐨')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🐨</div>
+            <div onclick="pickMascot('🦖')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🦖</div>
+            <div onclick="pickMascot('🐝')" class="text-5xl p-2 cursor-pointer hover:bg-orange-100 rounded-2xl text-center">🐝</div>
         </div>
     </div>
 
@@ -191,15 +216,15 @@
             { icon: "✈️", text: "你上一次去了哪裡旅行？" },
             { icon: "🎨", text: "你最喜歡的一種顏色是甚麼？" },
             { icon: "🍎", text: "你最喜歡吃哪一種水果？" },
-            { icon: "🧸", text: "在家裏你最喜歡玩甚麼玩具？" },
-            { icon: "😨", text: "你最害怕甚麼？" },
+            { icon: "🦸", text: "如果你有超能力，你最想做甚麼？" },
+            { icon: "🦕", text: "你最喜歡哪一種恐龍？" },
             { icon: "🏫", text: "在學校裡，你最喜歡做甚麼？" },
             { icon: "🛌", text: "你有沒有做過有趣的夢？" },
             { icon: "🍦", text: "你最喜歡甚麼口味的雪糕？" },
             { icon: "🎮", text: "假期的時候你最喜歡做甚麼？" },
             { icon: "🎁", text: "你收過最喜歡的禮物是甚麼？" },
             { icon: "🐱", text: "如果你可以養一種寵物，你會選甚麼？" },
-            { icon: "🌳", text: "你在公園最喜歡玩甚麼？" },
+            { icon: "🌳", text: "你去公園玩的時候最喜歡玩甚麼？" },
             { icon: "👨‍👩‍👧", text: "家裡誰最常陪你玩遊戲？" },
             { icon: "📚", text: "你最近看過甚麼圖書？" }
         ];
@@ -220,84 +245,54 @@
         ];
 
         const moodOptions = [
-            { emoji: "😊", label: "開心" },
-            { emoji: "🥰", label: "感到愛" },
-            { emoji: "😢", label: "不開心" },
-            { emoji: "🤩", label: "興奮" },
-            { emoji: "😑", label: "很悶" },
-            { emoji: "😴", label: "累了" },
-            { emoji: "😬", label: "緊張" },
-            { emoji: "😨", label: "害怕" },
-            { emoji: "😡", label: "生氣" }
+            { emoji: "😊", label: "開心" }, { emoji: "😍", label: "期待" }, { emoji: "😢", label: "不開心" },
+            { emoji: "🤩", label: "興奮" }, { emoji: "😑", label: "悶悶的" }, { emoji: "😴", label: "累了" },
+            { emoji: "😬", label: "緊張" }, { emoji: "😨", label: "害怕" }, { emoji: "😡", label: "生氣" }
         ];
 
         const feedbackTypes = [
-            { emoji: "👁️", label: "眼睛" },
-            { emoji: "👂", label: "耳朵" },
-            { emoji: "👄", label: "嘴巴" },
-            { emoji: "✋", label: "手手" },
-            { emoji: "🧠", label: "腦袋" },
-            { emoji: "❤️", label: "心心" }
+            { emoji: "👁️", label: "眼睛" }, { emoji: "👂", label: "耳朵" }, { emoji: "👄", label: "嘴巴" },
+            { emoji: "✋", label: "手手" }, { emoji: "🧠", label: "腦袋" }, { emoji: "❤️", label: "心心" }
         ];
+
+        function resetWhBorders() {
+            document.querySelectorAll('.wh-box').forEach(box => box.classList.remove('active'));
+        }
 
         function drawDailyTopic() {
             const rand = dailyTopics[Math.floor(Math.random() * dailyTopics.length)];
             document.getElementById('topic-icon').innerText = rand.icon;
             document.getElementById('topic-text').innerText = rand.text;
+            resetWhBorders(); // 換題時重置邊框，可視乎教學需求決定是否移除
         }
 
         function drawCreativeTopic() {
             const rand = creativeTopics[Math.floor(Math.random() * creativeTopics.length)];
             document.getElementById('topic-icon').innerText = rand.icon;
             document.getElementById('topic-text').innerText = rand.text;
+            resetWhBorders();
         }
 
         function setCount(num) {
             childrenCount = num;
             document.querySelectorAll('.count-btn').forEach(btn => btn.classList.remove('active'));
             document.getElementById(`btn-${num}`).classList.add('active');
-            
             const list = document.getElementById('children-list');
             list.innerHTML = '';
             childrenData = [];
-
             for (let i = 0; i < num; i++) {
-                childrenData.push({
-                    id: i,
-                    name: ``,
-                    mascot: '🐼',
-                    moods: [],
-                    feedback: [0, 0, 0, 0, 0, 0]
-                });
-
+                childrenData.push({ id: i, name: ``, mascot: '🐼', moods: [], feedback: [0, 0, 0, 0, 0, 0] });
                 const div = document.createElement('div');
-                div.className = 'glass-card flex items-center p-4 gap-4 transition-all duration-300';
-                div.innerHTML = `
-                    <div onclick="openMascotPicker(${i})" class="text-5xl bg-orange-50 p-3 rounded-2xl cursor-pointer hover:bg-orange-100 active:scale-90 transition-all shadow-sm" id="mascot-display-${i}">🐼</div>
-                    <input type="text" oninput="updateName(${i}, this.value)" placeholder="小朋友 ${i+1} 的名字" class="flex-1 text-2xl outline-none bg-transparent font-black text-purple-800 placeholder-purple-200">
-                `;
+                div.className = 'glass-card flex items-center p-4 gap-4';
+                div.innerHTML = `<div onclick="openMascotPicker(${i})" class="text-5xl bg-orange-50 p-3 rounded-2xl cursor-pointer" id="mascot-display-${i}">🐼</div><input type="text" oninput="updateName(${i}, this.value)" placeholder="小朋友 ${i+1} 的名字" class="flex-1 text-2xl outline-none bg-transparent font-black text-purple-800 placeholder-purple-200">`;
                 list.appendChild(div);
             }
             document.getElementById('start-btn').classList.remove('hidden');
         }
 
-        function updateName(index, val) {
-            childrenData[index].name = val || `小朋友 ${index + 1}`;
-        }
-
-        function openMascotPicker(index) {
-            pickingIndex = index;
-            document.getElementById('mascot-overlay').classList.remove('hidden');
-        }
-
-        function pickMascot(emoji) {
-            if (pickingIndex !== -1) {
-                childrenData[pickingIndex].mascot = emoji;
-                document.getElementById(`mascot-display-${pickingIndex}`).innerText = emoji;
-                document.getElementById('mascot-overlay').classList.add('hidden');
-                pickingIndex = -1;
-            }
-        }
+        function updateName(index, val) { childrenData[index].name = val || `小朋友 ${index + 1}`; }
+        function openMascotPicker(index) { pickingIndex = index; document.getElementById('mascot-overlay').classList.remove('hidden'); }
+        function pickMascot(emoji) { if (pickingIndex !== -1) { childrenData[pickingIndex].mascot = emoji; document.getElementById(`mascot-display-${pickingIndex}`).innerText = emoji; document.getElementById('mascot-overlay').classList.add('hidden'); pickingIndex = -1; } }
 
         function goToMoodPage() {
             document.body.className = 'page-gradient-mood p-6 flex flex-col items-center';
@@ -313,20 +308,7 @@
             childrenData.forEach((child, cIdx) => {
                 const card = document.createElement('div');
                 card.className = 'glass-card p-6 w-full max-w-md mx-auto';
-                card.innerHTML = `
-                    <div class="flex items-center gap-3 mb-6">
-                        <span class="text-4xl p-2 bg-white rounded-xl shadow-sm border border-gray-100">${child.mascot}</span>
-                        <span class="text-2xl font-black text-purple-900">${child.name || '小朋友 ' + (cIdx+1)}</span>
-                    </div>
-                    <div class="grid grid-cols-3 gap-4">
-                        ${moodOptions.map((mood, mIdx) => `
-                            <div onclick="toggleMood(${cIdx}, '${mood.emoji}')" id="mood-${cIdx}-${mood.emoji}" class="mood-btn flex flex-col items-center cursor-pointer active:scale-95">
-                                <span class="text-5xl">${mood.emoji}</span>
-                                <span class="text-sm font-bold text-gray-600 mt-2">${mood.label}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
+                card.innerHTML = `<div class="flex items-center gap-3 mb-6"><span class="text-4xl p-2 bg-white rounded-xl shadow-sm">${child.mascot}</span><span class="text-2xl font-black text-purple-900">${child.name || '小朋友 ' + (cIdx+1)}</span></div><div class="grid grid-cols-3 gap-4">${moodOptions.map((mood) => `<div onclick="toggleMood(${cIdx}, '${mood.emoji}')" id="mood-${cIdx}-${mood.emoji}" class="mood-btn flex flex-col items-center cursor-pointer"><span class="text-5xl">${mood.emoji}</span><span class="text-sm font-bold text-gray-600 mt-2">${mood.label}</span></div>`).join('')}</div>`;
                 list.appendChild(card);
             });
         }
@@ -335,13 +317,8 @@
             const child = childrenData[childIdx];
             const idx = child.moods.indexOf(emoji);
             const btn = document.getElementById(`mood-${childIdx}-${emoji}`);
-            if (idx > -1) {
-                child.moods.splice(idx, 1);
-                btn.classList.remove('selected');
-            } else {
-                child.moods.push(emoji);
-                btn.classList.add('selected');
-            }
+            if (idx > -1) { child.moods.splice(idx, 1); btn.classList.remove('selected'); }
+            else { child.moods.push(emoji); btn.classList.add('selected'); }
         }
 
         function goToSharingPage() {
@@ -358,57 +335,19 @@
             childrenData.forEach((child, cIdx) => {
                 const total = child.feedback.reduce((a, b) => a + b, 0);
                 const card = document.createElement('div');
-                card.className = `glass-card p-6 relative flex flex-col justify-between transition-all w-full max-w-sm mx-auto ${cIdx % 3 === 0 ? 'feedback-box-purple' : (cIdx % 3 === 1 ? 'feedback-box-blue' : 'feedback-box-green')}`;
-                card.innerHTML = `
-                    <div class="flex justify-between items-center mb-8">
-                        <div class="flex items-center gap-3">
-                            <span class="text-3xl">${child.mascot}</span>
-                            <span class="text-xl font-black text-gray-800">${child.name || '小朋友 ' + (cIdx+1)}</span>
-                        </div>
-                        <div class="bg-gray-100 text-purple-700 px-3 py-1 rounded-full text-sm font-black border border-white" id="total-${cIdx}">
-                            總數: ${total}
-                        </div>
-                    </div>
-                    <div class="flex justify-between items-end gap-1 px-1">
-                        ${feedbackTypes.map((type, fIdx) => {
-                            const count = child.feedback[fIdx];
-                            const color = cIdx % 3 === 0 ? '#9c27b0' : (cIdx % 3 === 1 ? '#2196f3' : '#4caf50');
-                            return `
-                                <div onclick="addFeedback(${cIdx}, ${fIdx})" class="flex flex-col items-center gap-2 cursor-pointer flex-1">
-                                    <span class="text-xs font-black text-gray-400" id="count-${cIdx}-${fIdx}">${count}</span>
-                                    <div class="bar-container">
-                                        <div class="bar-fill" id="bar-${cIdx}-${fIdx}" style="height: ${Math.min(count * 8, 100)}%; background: ${color}"></div>
-                                    </div>
-                                    <span class="text-3xl mt-1 select-none">${type.emoji}</span>
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                `;
+                const color = cIdx % 3 === 0 ? '#9c27b0' : (cIdx % 3 === 1 ? '#2196f3' : '#4caf50');
+                card.className = `glass-card p-6 relative flex flex-col justify-between w-full max-w-sm mx-auto ${cIdx % 3 === 0 ? 'feedback-box-purple' : (cIdx % 3 === 1 ? 'feedback-box-blue' : 'feedback-box-green')}`;
+                card.innerHTML = `<div class="flex justify-between items-center mb-8"><div class="flex items-center gap-3"><span class="text-3xl">${child.mascot}</span><span class="text-xl font-black text-gray-800">${child.name || '小朋友 ' + (cIdx+1)}</span></div><div class="bg-gray-100 text-purple-700 px-3 py-1 rounded-full text-sm font-black" id="total-${cIdx}">總數: ${total}</div></div><div class="flex justify-between items-end gap-1 px-1">${feedbackTypes.map((type, fIdx) => `<div onclick="addFeedback(${cIdx}, ${fIdx})" class="flex flex-col items-center gap-2 cursor-pointer flex-1"><span class="text-xs font-black text-gray-400" id="count-${cIdx}-${fIdx}">${child.feedback[fIdx]}</span><div class="bar-container"><div class="bar-fill" id="bar-${cIdx}-${fIdx}" style="height: ${Math.min(child.feedback[fIdx] * 8, 100)}%; background: ${color}"></div></div><span class="text-3xl mt-1">${type.emoji}</span></div>`).join('')}</div>`;
                 list.appendChild(card);
             });
         }
 
         function addFeedback(childIdx, feedbackIdx) {
             childrenData[childIdx].feedback[feedbackIdx]++;
-            const count = childrenData[childIdx].feedback[feedbackIdx];
-            const countEl = document.getElementById(`count-${childIdx}-${feedbackIdx}`);
-            const barEl = document.getElementById(`bar-${childIdx}-${feedbackIdx}`);
-            
-            countEl.innerText = count;
-            countEl.classList.remove('text-gray-400');
-            countEl.classList.add('text-purple-600', 'scale-125');
-            setTimeout(() => countEl.classList.remove('scale-125'), 100);
-
-            barEl.style.height = `${Math.min(count * 8, 100)}%`;
-            
-            const total = childrenData[childIdx].feedback.reduce((a, b) => a + b, 0);
-            document.getElementById(`total-${childIdx}`).innerText = `總數: ${total}`;
+            renderFeedback(); // Simple re-render to update UI
         }
 
-        document.getElementById('mascot-overlay').onclick = function(e) {
-            if (e.target === this) this.classList.add('hidden');
-        }
+        document.getElementById('mascot-overlay').onclick = function(e) { if (e.target === this) this.classList.add('hidden'); }
     </script>
 </body>
 </html>
